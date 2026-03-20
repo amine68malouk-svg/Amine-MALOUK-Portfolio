@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMINE MALOUK | PORTFOLIO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Plus+Jakarta+Sans:wght@300;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8f8f8;
+            --accent: #ff3c00;
+            --dark: #0a0a0a;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        .serif { font-family: 'Playfair Display', serif; }
+
+        /* Curseur personnalisé */
+        .cursor-dot {
+            width: 8px; height: 8px; background: var(--accent);
+            position: fixed; border-radius: 50%; z-index: 10000;
+            pointer-events: none; transition: transform 0.1s ease;
+        }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 1px solid var(--dark);
+            position: fixed; border-radius: 50%; z-index: 9999;
+            pointer-events: none; transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Transitions de page */
+        .page-view {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+        }
+        .page-view.active { display: block; animation: fadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Barre d'alternance */
+        .alternance-bar {
+            background: var(--accent);
+            color: white;
+            padding: 12px 0;
+            font-weight: 800;
+            text-transform: uppercase;
+            overflow: hidden;
+            white-space: nowrap;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 100;
+            border-top: 1px solid var(--dark);
+        }
+        .marquee-track {
+            display: inline-block;
+            animation: marquee 25s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Styles des Placeholders */
+        .photo-placeholder {
+            background: #ededed;
+            border: 1px dashed #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-back {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 200;
+            background: var(--dark);
+            color: white;
+            padding: 0.8rem 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            border-radius: 100px;
+            transition: all 0.3s ease;
+        }
+        .btn-back:hover { background: var(--accent); transform: scale(1.05); }
+
+        .passion-item {
+            border: 1px solid rgba(0,0,0,0.08);
+            padding: 3rem;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            background: white;
+        }
+        .passion-item:hover {
+            background: var(--dark);
+            color: white;
+            transform: translateY(-12px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+        }
+
+        /* Style Timeline pour CV */
+        .cv-item {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 1px solid rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+        .cv-item::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .social-link {
+            position: relative;
+            display: inline-block;
+        }
+        .social-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .social-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <div class="alternance-bar">
+        <div class="marquee-track text-sm">
+            RECHERCHE ALTERNANCE EN TECHNIQUES DE COMMERCIALISATION — DISPONIBLE IMMÉDIATEMENT — AMINE MALOUK — RECHERCHE ALTERNANCE EN TECHNIQUES DE COMMERCIALISATION — DISPONIBLE IMMÉDIATEMENT — AMINE MALOUK —
+        </div>
+    </div>
+
+    <!-- ACCUEIL -->
+    <main id="home-page" class="page-view active">
+        <nav class="p-8 flex justify-between items-center">
+            <h2 class="serif font-black text-2xl italic tracking-tighter">AM.</h2>
+            <div class="flex gap-10 text-[10px] font-extrabold uppercase tracking-[0.25em]">
+                <a href="#work" class="hover:text-red-600 transition-colors">Projets</a>
+                <a href="#about" class="hover:text-red-600 transition-colors">Identité</a>
+                <a href="#experience" class="hover:text-red-600 transition-colors">Parcours</a>
+                <a href="#socials" class="hover:text-red-600 transition-colors">Réseaux</a>
+            </div>
+        </nav>
+
+        <header class="min-h-[80vh] flex flex-col justify-center px-6 container mx-auto">
+            <p class="uppercase tracking-[0.6em] text-[11px] mb-6 opacity-40 font-bold italic">Portfolio V.02 — 2026</p>
+            <h1 class="text-7xl md:text-[12rem] serif font-black leading-[0.82] mb-10 tracking-tighter">
+                AMINE<br><span class="text-red-600">MALOUK</span>
+            </h1>
+            <p class="max-w-2xl text-2xl font-light italic opacity-60 leading-relaxed">
+                Stratégie commerciale & Vision créative.
+            </p>
+        </header>
+
+        <!-- SECTION PROJETS -->
+        <section id="work" class="py-32 border-t border-black/5">
+            <div class="container mx-auto px-6">
+                <h2 class="serif text-6xl mb-20 font-black italic">PROJETS.</h2>
+                <div class="grid grid-cols-1 gap-1">
+                    <div onclick="showPage('fawal-page')" class="group py-16 border-b border-black/10 flex flex-col md:flex-row justify-between items-baseline cursor-pointer transition-all text-left w-full">
+                        <h3 class="serif text-5xl md:text-9xl font-black group-hover:italic group-hover:text-red-600 transition-all text-left">Al Fawal</h3>
+                        <span class="font-bold uppercase text-xs opacity-40 tracking-widest">SAÉ BUT TC</span>
+                    </div>
+                    <div onclick="showPage('eco-page')" class="group py-16 border-b border-black/10 flex flex-col md:flex-row justify-between items-baseline cursor-pointer transition-all text-left w-full">
+                        <h3 class="serif text-5xl md:text-9xl font-black group-hover:italic group-hover:text-red-600 transition-all text-left">SeaWeave</h3>
+                        <span class="font-bold uppercase text-xs opacity-40 tracking-widest">CRÉATION D'ENTREPRISE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION ADN / PASSIONS -->
+        <section id="about" class="py-32 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="serif text-6xl font-black mb-20 italic">ADN.</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div onclick="showPage('auto-page')" class="passion-item cursor-pointer">
+                        <span class="text-5xl mb-8 block">🏎️</span>
+                        <h4 class="font-black text-2xl mb-2">Automobile</h4>
+                        <p class="text-[10px] font-bold opacity-40 uppercase tracking-widest">Héritage & Précision</p>
+                    </div>
+                    <div onclick="showPage('mode-page')" class="passion-item cursor-pointer">
+                        <span class="text-5xl mb-8 block">🕶️</span>
+                        <h4 class="font-black text-2xl mb-2">Mode</h4>
+                        <p class="text-[10px] font-bold opacity-40 uppercase tracking-widest">Esthétique & Stratégie</p>
+                    </div>
+                    <div onclick="showPage('moto-page')" class="passion-item cursor-pointer">
+                        <span class="text-5xl mb-8 block">🏍️</span>
+                        <h4 class="font-black text-2xl mb-2">Motos</h4>
+                        <p class="text-[10px] font-bold opacity-40 uppercase tracking-widest">Culture Motarde</p>
+                    </div>
+                    <div onclick="showPage('com-page')" class="passion-item cursor-pointer">
+                        <span class="text-5xl mb-8 block">📈</span>
+                        <h4 class="font-black text-2xl mb-2">Commerce</h4>
+                        <p class="text-[10px] font-bold opacity-40 uppercase tracking-widest">Performance & Terrain</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION EXPERIENCE -->
+        <section id="experience" class="py-32 bg-zinc-50">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+                    <h2 class="serif text-6xl font-black italic">PARCOURS.</h2>
+                    <div class="flex gap-4">
+                        <span class="px-4 py-2 border border-black/10 rounded-full text-[10px] font-bold uppercase">Anglais Courant</span>
+                        <span class="px-4 py-2 border border-black/10 rounded-full text-[10px] font-bold uppercase">Permis B & A2</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                    <div class="lg:col-span-8">
+                        <h3 class="font-black uppercase tracking-[0.3em] text-[12px] mb-12 opacity-30">Expériences Professionnelles</h3>
+                        
+                        <div class="cv-item">
+                            <span class="text-xs font-bold opacity-40 uppercase tracking-tighter">Juillet — Décembre 2025</span>
+                            <h4 class="text-2xl font-black mt-2">Serveur en restauration</h4>
+                            <p class="serif italic text-lg text-red-600">Hum c'est bon, Turckheim</p>
+                        </div>
+
+                        <div class="cv-item">
+                            <span class="text-xs font-bold opacity-40 uppercase tracking-tighter">Septembre 2024 — Juin 2025</span>
+                            <h4 class="text-2xl font-black mt-2">Vendeur Libre Service en Alternance</h4>
+                            <p class="serif italic text-lg text-red-600">Cedeo, Strasbourg</p>
+                        </div>
+
+                        <div class="cv-item">
+                            <span class="text-xs font-bold opacity-40 uppercase tracking-tighter">Juillet — Août 2024</span>
+                            <h4 class="text-2xl font-black mt-2">Opérateur B3</h4>
+                            <p class="serif italic text-lg text-red-600">Constellium, Biesheim</p>
+                        </div>
+
+                        <div class="cv-item">
+                            <span class="text-xs font-bold opacity-40 uppercase tracking-tighter">2023 — 2024</span>
+                            <h4 class="text-2xl font-black mt-2">Agent de propreté / Équipier Polyvalent</h4>
+                            <p class="serif italic text-lg text-red-600">Kauffmann ProServices & McDonald's</p>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4 bg-white p-10 border border-black/5 shadow-sm">
+                        <h3 class="font-black uppercase tracking-[0.3em] text-[12px] mb-10 opacity-30">Formation</h3>
+                        <div class="space-y-10">
+                            <div>
+                                <h5 class="font-black text-lg">BUT TC Alternance</h5>
+                                <p class="text-sm opacity-60">IUT Colmar — En cours</p>
+                            </div>
+                            <div>
+                                <h5 class="font-black text-lg">Baccalauréat Général</h5>
+                                <p class="text-sm opacity-60">Lycée Bartholdi, Colmar — 2024</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION RÉSEAUX -->
+        <section id="socials" class="py-32 bg-white border-t border-black/5">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="serif text-6xl font-black italic mb-20">REJOINDRE.</h2>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-16 md:gap-32">
+                    <a href="https://www.instagram.com/amine.mlk_" target="_blank" class="social-link text-4xl md:text-6xl font-black serif italic group transition-all">
+                        Instagram
+                        <span class="block text-[10px] font-bold uppercase tracking-[0.3em] mt-2 opacity-30 group-hover:opacity-100 group-hover:text-red-600 transition-all">@amine.mlk_</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/amine-malouk" target="_blank" class="social-link text-4xl md:text-6xl font-black serif italic group transition-all">
+                        LinkedIn
+                        <span class="block text-[10px] font-bold uppercase tracking-[0.3em] mt-2 opacity-30 group-hover:opacity-100 group-hover:text-red-600 transition-all">Amine Malouk</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-48 text-center bg-zinc-50 border-t border-black/5">
+            <p class="text-[10px] font-bold opacity-40 uppercase tracking-[1.5em] mb-8">Contact & Collaboration</p>
+            <a href="mailto:amine68malouk@gmail.com" class="serif text-3xl md:text-5xl font-black hover:text-red-600 transition-colors px-4 break-words">amine68malouk@gmail.com</a>
+        </footer>
+    </main>
+
+    <!-- PAGES DE DÉTAILS (CONTENU ADN) -->
+    <!-- Automobile -->
+    <div id="auto-page" class="page-view bg-[#0a0a0a] text-white">
+        <button onclick="showPage('home-page')" class="btn-back">← Accueil</button>
+        <div class="container mx-auto px-6 py-32">
+            <div class="max-w-6xl mx-auto">
+                <h1 class="serif text-7xl md:text-[10rem] font-black mb-12 leading-none">AUTO<br><span class="text-red-600">MOBILE.</span></h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-start mb-24">
+                    <div class="photo-placeholder aspect-square bg-zinc-900 border-zinc-800 text-center p-4">[Image Héritage Automobile]</div>
+                    <div class="space-y-8 text-left">
+                        <h3 class="text-3xl font-black serif italic text-red-600">Un héritage familial</h3>
+                        <p class="text-2xl font-light italic opacity-70 leading-relaxed">C'est un héritage transmis par mon père. Depuis petit, mon regard est tourné vers les courbes et les performances mécaniques.</p>
+                        <p class="text-lg font-light opacity-80 leading-relaxed">À ses côtés, j'ai compris que l'automobile n'était pas qu'un objet de consommation, mais une prouesse d'ingénierie et un symbole de liberté. Cette passion m'a appris l'importance du détail : une carrosserie parfaite, un moteur bien réglé, un cuir de qualité... c'est cette quête de la perfection que je transpose aujourd'hui dans mes projets professionnels.</p>
+                        <div class="pt-8 border-t border-white/10">
+                            <h4 class="text-xs font-black uppercase tracking-widest opacity-40 mb-4">Ce que cela m'apporte :</h4>
+                            <ul class="space-y-2 text-sm font-bold uppercase tracking-tight">
+                                <li>• Rigueur & Précision technique</li>
+                                <li>• Culture du luxe et du premium</li>
+                                <li>• Analyse des tendances design</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mode -->
+    <div id="mode-page" class="page-view bg-white">
+        <button onclick="showPage('home-page')" class="btn-back">← Accueil</button>
+        <div class="container mx-auto px-6 py-32">
+            <div class="max-w-6xl mx-auto">
+                <h1 class="serif text-7xl md:text-[10rem] font-black mb-12 leading-none">MODE.</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20 items-start">
+                    <div class="space-y-10 text-left">
+                        <p class="text-4xl serif italic leading-tight text-zinc-900">"L'élégance n'est pas une question de vêtement, c'est une stratégie de positionnement."</p>
+                        <p class="text-xl font-light opacity-80 leading-relaxed">Pour moi, la mode est l'un des secteurs commerciaux les plus fascinants. Elle ne vend pas seulement des textiles, elle vend une appartenance, un rêve et une identité. L'esthétique est un langage, et le commerce en est le moteur.</p>
+                        <p class="text-lg font-light opacity-80 leading-relaxed">Je m'intéresse particulièrement au marketing de la mode : comment une marque arrive à créer un désir irrationnel autour d'une pièce ? Cette compréhension de la psychologie du consommateur est une force majeure dans mon approche commerciale. J'aime l'idée que chaque détail, du packaging à la mise en rayon, raconte une histoire cohérente.</p>
+                    </div>
+                    <div class="space-y-12">
+                        <div class="photo-placeholder aspect-video shadow-2xl">[Image Vision Créative Mode]</div>
+                        <div class="bg-zinc-50 p-8 border-l-4 border-black">
+                             <h4 class="text-xs font-black uppercase tracking-widest mb-4">Domaines d'intérêt :</h4>
+                             <p class="text-sm font-medium opacity-70 text-left">Stylisme, Merchandising, Stratégie de marque (Branding), Psychologie de l'acheteur.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Motos -->
+    <div id="moto-page" class="page-view bg-zinc-900 text-white">
+        <button onclick="showPage('home-page')" class="btn-back">← Accueil</button>
+        <div class="container mx-auto px-6 py-32">
+            <div class="max-w-6xl mx-auto">
+                <h1 class="serif text-7xl md:text-[10rem] font-black mb-12 leading-none italic text-red-600">MOTOS.</h1>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+                    <div class="lg:col-span-1 space-y-8 text-left">
+                        <h3 class="text-2xl font-black uppercase tracking-tighter">Adrénaline & Discipline</h3>
+                        <p class="text-2xl font-light italic opacity-80 leading-relaxed">Motard convaincu, la route est mon espace d'expression. C'est un sentiment de liberté pure que l'on ne retrouve nulle part ailleurs.</p>
+                        <p class="text-lg font-light opacity-50 leading-relaxed text-left">Être motard exige une concentration absolue et une réactivité de chaque instant — des qualités que j'applique chaque jour dans mes défis commerciaux. On ne conduit pas une moto, on fait corps avec elle. Cela demande de l'anticipation, une gestion du risque calculée et une grande discipline personnelle.</p>
+                    </div>
+                    <div class="lg:col-span-2 space-y-8">
+                        <div class="photo-placeholder aspect-video bg-zinc-800 text-center p-4">[Image Culture Moto]</div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-6 bg-white/5 rounded-lg border border-white/10 text-left">
+                                <span class="block text-3xl mb-2">⚡</span>
+                                <h5 class="text-sm font-black uppercase tracking-widest">Anticipation</h5>
+                                <p class="text-xs opacity-50">Savoir lire la route avant d'y être.</p>
+                            </div>
+                            <div class="p-6 bg-white/5 rounded-lg border border-white/10 text-left">
+                                <span class="block text-3xl mb-2">🛠️</span>
+                                <h5 class="text-sm font-black uppercase tracking-widest">Entretien</h5>
+                                <p class="text-xs opacity-50">Prendre soin de son outil de performance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Commerce -->
+    <div id="com-page" class="page-view bg-[#f3f3f3]">
+        <button onclick="showPage('home-page')" class="btn-back">← Accueil</button>
+        <div class="container mx-auto px-6 py-32">
+            <div class="max-w-6xl mx-auto">
+                <h1 class="serif text-7xl md:text-[10rem] font-black mb-12 leading-none text-left">COMMERCE.</h1>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+                    <div class="md:col-span-5 space-y-12">
+                        <div class="bg-white p-12 border-l-8 border-red-600 shadow-xl text-left">
+                            <h3 class="serif text-3xl font-black mb-4 italic">Le déclic.</h3>
+                            <p class="text-xl font-light opacity-80 leading-relaxed">C'est lors de mon stage en concession automobile que tout est devenu clair : vendre, c'est avant tout comprendre l'autre et savoir raconter une histoire qui résonne.</p>
+                        </div>
+                        <div class="p-4 space-y-4 text-left">
+                            <h4 class="font-black text-sm uppercase tracking-widest opacity-40">Ma vision commerciale :</h4>
+                            <p class="text-lg leading-relaxed">Je ne cherche pas seulement à conclure une transaction, mais à bâtir une relation. Le commerce est pour moi un jeu d'échecs humain où l'empathie et la persuasion sont les meilleures armes. Mon parcours en BUT TC me permet d'allier cette intuition naturelle à des outils d'analyse rigoureux (études de marché, CRM, négociation complexe).</p>
+                        </div>
+                    </div>
+                    <div class="md:col-span-7">
+                        <div class="photo-placeholder aspect-square shadow-md mb-8 text-center p-4">[Image Performance Commerciale]</div>
+                        <div class="grid grid-cols-2 gap-2">
+                             <div class="p-8 bg-black text-white text-center">
+                                <span class="block text-4xl font-black mb-1">100%</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest opacity-60">Engagement Terrain</span>
+                             </div>
+                             <div class="p-8 bg-red-600 text-white text-center">
+                                <span class="block text-4xl font-black mb-1">PRO</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest opacity-60">Approche Stratégique</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROJETS -->
+    <div id="fawal-page" class="page-view bg-white">
+        <button onclick="showPage('home-page')" class="btn-back">← Accueil</button>
+        <div class="container mx-auto px-6 py-32">
+            <div class="max-w-6xl mx-auto">
+                <span class="text-red-600 font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block text-left">Marketing Stratégique</span>
+                <h1 class="serif text-7xl md:text-[10rem] font-black mb-10 leading-none text-left">AL FAWAL</h1>
+                <div class="space-y-12">
+                    <div class="photo-placeholder aspect-video text-center p-4">[Image Al Fawal]</div>
+                    <div class="text-left space-y-6 max-w-4xl">
+                        <p class="text-xl font-bold text-red-600 leading-relaxed">Dans le cadre de ma formation en BUT Techniques de Commercialisation, j’ai réalisé une SAÉ d’une semaine en groupe portant sur le lancement de la marque Al Fawal. Ce projet avait pour objectif de simuler l’introduction d’une marque sur le marché en développant une stratégie marketing et commerciale adaptée.</p>
+                        <p class="text-lg font-light leading-relaxed">Au cours de ce travail, nous avons mené une analyse du marché afin d’identifier les opportunités et de mieux comprendre l’environnement concurrentiel. Nous avons ensuite défini une cible pertinente ainsi qu’un positionnement clair pour la marque, dans le but de renforcer son attractivité et sa cohérence.</p>
+                        <p class="text-lg font-light leading-relaxed">Nous avons également élaboré une stratégie de communication visant à améliorer l’image de marque d’Al Fawal et à accroître sa notoriété. Cela s’est traduit par la proposition d’actions concrètes, notamment à travers des supports de communication et des idées de diffusion adaptées aux attentes de la cible.</p>
+                        <p class="text-lg font-light leading-relaxed">Réalisé en groupe, ce projet m’a permis de développer mes compétences en travail d’équipe, en organisation et en réflexion stratégique. Il m’a également aidé à renforcer mes connaissances en marketing et en communication, tout en me confrontant à une situation proche des enjeux professionnels.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="eco-page" class="page-view bg-[#f4f7f9]">
+        <button onclick="showPage('home-page')" class="btn-back">← Accueil</button>
+        <div class="container mx-auto px-6 py-32">
+            <div class="max-w-6xl mx-auto">
+                <span class="text-blue-600 font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block text-left">Éco-Conception & RSE</span>
+                <h1 class="serif text-7xl md:text-[10rem] font-black mb-10 leading-none italic text-blue-900 text-left">SEAWEAVE</h1>
+                <div class="space-y-12">
+                    <div class="photo-placeholder aspect-video bg-white shadow-xl text-center p-4">[Image Concept SeaWeave]</div>
+                    <div class="text-left space-y-6 max-w-5xl">
+                        <p class="text-xl font-bold text-blue-900 leading-relaxed">Dans le cadre de la SAE de création d’entreprise, j’ai participé à un projet de groupe visant à concevoir une entreprise innovante répondant à des enjeux environnementaux, notamment liés à la protection de la vie aquatique et à la responsabilité sociétale des entreprises (RSE).</p>
+                        <p class="text-lg font-light leading-relaxed">Avec mon équipe, nous avons imaginé une entreprise spécialisée dans la récupération et la valorisation de filets de pêche usagés, souvent responsables d’une pollution importante des océans. Notre concept reposait sur leur transformation en canapés éco-conçus, alliant design, durabilité et engagement écologique. L’objectif était de proposer un produit à forte valeur ajoutée, tout en s’inscrivant dans une logique d’économie circulaire.</p>
+                        <p class="text-lg font-light leading-relaxed">Ce projet nous a amenés à construire l’entreprise de A à Z, en mobilisant de nombreuses compétences. Nous avons notamment élaboré un Lean Business Canvas afin de structurer notre modèle économique, défini notre proposition de valeur, identifié nos segments de clientèle et réfléchi à nos canaux de distribution. Une étude de marché a également été réalisée pour analyser la demande, la concurrence et les tendances liées à la consommation responsable, complétée par une étude de faisabilité économique et opérationnelle.</p>
+                        <p class="text-lg font-light leading-relaxed">Au-delà de ces aspects théoriques, nous avons mené un véritable travail de terrain. Nous avons contacté des fournisseurs et des acteurs du secteur maritime afin de comprendre les conditions de récupération des filets de pêche. Ces échanges téléphoniques nous ont permis de confronter notre projet à la réalité du terrain, mais ont également révélé plusieurs contraintes, notamment logistiques et juridiques.</p>
+                        <p class="text-lg font-light leading-relaxed">En effet, nous avons identifié des difficultés liées à la réglementation encadrant la gestion des déchets marins, ainsi qu’aux autorisations nécessaires pour intervenir dans les ports. Les échanges avec les capitaineries ont mis en évidence la complexité des démarches administratives, notamment en matière d’accès, de stockage et de transport des filets usagés. Ces contraintes nous ont obligés à adapter notre projet, à anticiper les risques et à proposer des solutions réalistes.</p>
+                        <p class="text-lg font-light leading-relaxed">Le travail en équipe a également constitué un enjeu majeur tout au long de la SAE. Nous avons dû nous organiser efficacement, répartir les tâches en fonction des compétences de chacun, et faire face à des désaccords ou des contraintes de temps. Cette expérience m’a permis de renforcer mes capacités de communication, de coordination et de prise d’initiative dans un contexte de projet concret.</p>
+                        <p class="text-lg font-bold text-blue-900 leading-relaxed italic">Cette SAE a été particulièrement enrichissante, car elle m’a permis de passer d’une idée à un projet structuré, tout en intégrant des contraintes réelles liées au marché et à la réglementation. Elle m’a également sensibilisé aux enjeux environnementaux actuels et à l’importance d’innover de manière responsable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dot = document.getElementById('cursor-dot');
+        const outline = document.getElementById('cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            dot.style.left = `${e.clientX}px`;
+            dot.style.top = `${e.clientY}px`;
+            setTimeout(() => {
+                outline.style.left = `${e.clientX - 20}px`;
+                outline.style.top = `${e.clientY - 20}px`;
+            }, 50);
+        });
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(pageId);
+            target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'instant' });
+
+            if(pageId === 'auto-page' || pageId === 'moto-page') {
+                outline.style.borderColor = "#fff";
+                dot.style.background = "#ff3c00";
+            } else {
+                outline.style.borderColor = "#0a0a0a";
+                dot.style.background = "#ff3c00";
+            }
+        }
+
+        document.querySelectorAll('a, button, .passion-item, .group').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                outline.style.transform = 'scale(1.8)';
+                outline.style.background = 'rgba(255, 60, 0, 0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                outline.style.transform = 'scale(1)';
+                outline.style.background = 'transparent';
+            });
+        });
+    </script>
+</body>
+</html>
+

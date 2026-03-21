@@ -539,18 +539,7 @@
     </div>
 
     <script>
-        const dot = document.getElementById('cursor-dot');
-        const outline = document.getElementById('cursor-outline');
-
-        window.addEventListener('mousemove', (e) => {
-            dot.style.left = `${e.clientX}px`;
-            dot.style.top = `${e.clientY}px`;
-            setTimeout(() => {
-                outline.style.left = `${e.clientX - 20}px`;
-                outline.style.top = `${e.clientY - 20}px`;
-            }, 50);
-        });
-
+       
         function showPage(pageId) {
             document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
             const target = document.getElementById(pageId);
@@ -577,5 +566,24 @@
             });
         });
     </script>
+    <script>
+const dot = document.getElementById('cursor-dot');
+const outline = document.getElementById('cursor-outline');
+
+// Curseur fluide (ordinateur)
+document.addEventListener('mousemove', (e) => {
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+
+    outline.style.left = e.clientX + 'px';
+    outline.style.top = e.clientY + 'px';
+});
+
+// Désactive sur téléphone
+if ('ontouchstart' in window) {
+    dot.style.display = "none";
+    outline.style.display = "none";
+}
+</script>
 </body>
 </html>
